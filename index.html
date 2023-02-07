@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open AI Image generation</title>
+    <style>
+        body
+            {
+            padding: 30px;
+            background-color: #fcfcfc;  
+            }
+        .container {
+            margin: 0 auto;
+            max-width: 400px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p style="font-size: 1em;">Text To Image Generate Using Open AI<p>
+        <div style="display:flex; align-items: center; font-size: 0.8em; margin: 0 auto; width: 90%;">
+            <label for="promp" style="padding: 2px;">Prompt:</label>
+            <textarea id="prompt" cols="20" rows="2"></textarea>
+            <button type="submit" onclick="fetchImage()" style="padding: 4px; margin-left: 5px;">Submit</button>
+        </div>
+        <p style="margin: auto; padding-left: 5rem; font-size: 1em;">Use responsibly</p>
+        <div style="display:flex; align-items: center; flex-direction: column; gap: 10px; margin: auto; width: 90%; margin-top: 50px;" id="image"></div>
+        </div>
+    <script>
+        function fetchImage(){
+            let promptText = document.getElementById("prompt");
+            let url = `${window.location.href}fetch`;
+            let image = document.getElementById("image");
+            fetch(url, {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({'prompt':promptText.value})
+            }).then((res)=>res.json())
+            .then((result)=>{
+                image.innerHTML = "";
+                if(result.status){
+                    for (const item of result.data) {
+                    let img = document.createElement("img");
+                    img.src = item.url;
+                    img.style.marginRight = '5px';
+                    img.style.borderRadius = '5px';
+                    image.appendChild(img);
+                    }
+                }
+                promptText.value = '';
+            });
+        }
+    </script>
+</body>
+</html>
