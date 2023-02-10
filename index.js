@@ -29,7 +29,7 @@ server((req, res)=>{
                         'method':'POST',
                         'headers':{
                             'Content-Type':'application/json',
-                            'Authorization':'Bearer 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'
+                            'Authorization':'Bearer <api-token>'
                         }}, (resp)=>{
                         if(resp.statusCode !== 200){
                             console.log(resp.statusCode);
